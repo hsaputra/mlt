@@ -52,7 +52,7 @@ class TemplatesCommand(Command):
         if not os.path.exists(templates_directory):
             return result
         for filename in sorted(os.listdir(templates_directory)):
-            if not os.path.isdir(filename):
+            if not os.path.isdir(os.path.join(templates_directory, filename)):
                 continue
             description = '<none>'
             version = '<none>'
