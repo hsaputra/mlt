@@ -51,7 +51,9 @@ class TemplatesCommand(Command):
         result = []
         if not os.path.exists(templates_directory):
             return result
-        for filename in sorted(next(os.walk(templates_directory))[1]):
+        for filename in sorted(os.listdir(templates_directory)):
+            if not os.path.isdir(filename):
+                continue
             description = '<none>'
             version = '<none>'
             readme_file = os.path.join(
