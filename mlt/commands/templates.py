@@ -43,7 +43,7 @@ class TemplatesCommand(Command):
                           "and you have read access to the directory.")
             else:
                 print(tabulate(templates,
-                               headers=['Template', 'Description'],
+                               headers=['Template', 'Version', 'Description'],
                                tablefmt="simple"))
 
     def _parse_templates(self, templates_directory):
@@ -51,10 +51,13 @@ class TemplatesCommand(Command):
         result = []
         if not os.path.exists(templates_directory):
             return result
-        for filename in sorted(os.listdir(templates_directory)):
+        for filename in sorted(next(os.walk(templates_directory))[1]):
             description = '<none>'
+            version = '<none>'
             readme_file = os.path.join(
                 templates_directory, filename, "README.md")
+            version_file = os.path.join(
+                templates_directory, filename, "version.txt")
             if os.path.isfile(readme_file):
                 with open(readme_file) as f:
                     for line in f:
@@ -63,5 +66,8 @@ class TemplatesCommand(Command):
                             continue
                         description = line
                         break
-                result.append([filename, description])
+            if os.path.isfile(version_file):
+                with open(version_file) as f:
+                    version = f.readline().strip()
+            result.append([filename, version, description])
         return result
