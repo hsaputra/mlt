@@ -127,6 +127,6 @@ def sanitize_input(args, regex=None):
 
 def main():
     args = sanitize_input(
-        docopt(__doc__, version="ML Container Templates Version {}".\
+        docopt(__doc__, version="ML Container Templates Version {}".
                format(mlt.__version__)))
     run_command(args)
